@@ -1,0 +1,69 @@
+import discord
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True  
+
+bot = commands.Bot(command_prefix="/", intents=intents)
+
+
+degradazione_materiali = {
+    "vetro": "non degradabile",
+    "plastica": "450-1000 anni",
+    "alluminio": "200-500 anni",
+    "carta": "2-6 settimane",
+    "gomma": "50-80 anni",
+    "acciaio": "circa 50 anni",
+    "organico": "1-6 mesi",
+    "legno": "1-3 anni",
+    "tessuti": "30-40 anni"
+}
+
+@bot.event
+async def on_ready():
+    print(f'Abbiamo fatto l\'accesso come {bot.user}')
+
+
+@bot.command()
+async def degradazione(ctx, materiale: str):
+    materiale = materiale.lower()  
+    if materiale in degradazione_materiali:
+        risposta = f"Il tempo di degradazione di **{materiale}** è: {degradazione_materiali[materiale]}."
+    else:
+        risposta = "Mi dispiace, non conosco il tempo di degradazione di questo materiale. Prova a chiedere di 'vetro', 'plastica', 'carta', ecc."
+    await ctx.send(risposta)
+
+@bot.command()
+async def vetro(ctx):
+    await ctx.send("Il tempo di degradazione del **vetro** è: non degradabile.")
+
+@bot.command()
+async def plastica(ctx):
+    await ctx.send("Il tempo di degradazione della **plastica** è: 450-1000 anni.")
+
+@bot.command()
+async def carta(ctx):
+    await ctx.send("Il tempo di degradazione della **carta** è: 2-6 settimane.")
+
+@bot.command()
+async def alluminio(ctx):
+    await ctx.send("Il tempo di degradazione dell'**alluminio** è: 200-500 anni.")
+
+@bot.command()
+async def gomma(ctx):
+    await ctx.send("Il tempo di degradazione della **gomma** è: 50-80 anni.")
+
+@bot.command()
+async def organico(ctx):
+    await ctx.send("Il tempo di degradazione del materiale **organico** è: 1-6 mesi.")
+
+@bot.command()
+async def legno(ctx):
+    await ctx.send("Il tempo di degradazione del **legno** è: 1-3 anni.")
+
+@bot.command()
+async def tessuti(ctx):
+    await ctx.send("Il tempo di degradazione dei **tessuti sintetici** è: 30-40 anni.")
+
+
